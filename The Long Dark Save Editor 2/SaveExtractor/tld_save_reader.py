@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
 """
-tld_reader.py — Extract items from a The Long Dark save file (v2.44+).
-No third-party dependencies required — pure Python stdlib only.
+tld_save_reader.py: extract items from a The Long Dark save file (v2.44+).
+No third-party dependencies required. Pure Python stdlib only.
 
 Usage:
-    python tld_reader.py [save_file] [--csv] [--scene SCENE_NAME] [--summary]
+    python tld_save_reader.py [save_file] [--csv] [--out FILE] [--scene SCENE_NAME]
+                              [--summary] [--include-unsearched]
+
+Item categories and the source column (base game, DLC, mod) come from
+tld_taxonomy.py, which must sit next to this file.
+The save file is only read, never written.
 """
 
 import argparse
@@ -17,7 +22,9 @@ import sys
 from collections import Counter, defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
+
+from tld_taxonomy import TAXONOMY_LOOKUP, normalize_prefab, prefab_source
 
 
 # ---------------------------------------------------------------------------
@@ -48,7 +55,7 @@ def _decompress(data: bytes) -> bytes:
     for skip in (0, 1):
         try:
             return _lzf_decompress(data[skip:])
-        except Exception:
+        except (ValueError, IndexError):
             pass
     raise ValueError("LZF decompression failed")
 
@@ -130,49 +137,63 @@ SCENE_DISPLAY_NAMES = {
     "HighwayTransitionZone":     "Highway Transition",
 }
 
+# Region shown for each scene. The longest matching prefix of the scene key wins.
+# Outdoor zone names follow Properties/Resources.resx (RegionsWithMap_*) in this
+# repository, except MountainTownRegion, which this tool has always called Milton.
+# Interior entries come from the original table and from what real saves show.
+# region_for_scene() keeps one only when that region's zone is in the same save.
 SCENE_TO_REGION = {
-    "CampOffice":            "Mystery Lake",
-    "LakeCabin":             "Mystery Lake",
-    "TrailerA":              "Mystery Lake",
-    "TrailerB":              "Mystery Lake",
-    "TrailerC":              "Mystery Lake",
-    "TrailerD":              "Mystery Lake",
-    "DamTrailer":            "Mystery Lake",
-    "Dam":                   "Mystery Lake",
-    "DamTransition":         "Mystery Lake",
-    "DamRiver":              "Mystery Lake",
-    "DamCave":               "Mystery Lake",
-    "SafeHouseA":            "Mystery Lake",
-    "PrepperCache":          "Mystery Lake",
+    # Outdoor zones
     "LakeRegion":            "Mystery Lake",
     "CoastalRegion":         "Coastal Highway",
+    "RuralRegion":           "Pleasant Valley",
+    "MarshRegion":           "Forlorn Muskeg",
+    "WhalingStation":        "Desolation Point",
+    "CrashMountain":         "Timberwolf Mountain",
+    "MountainTown":          "Milton",
+    "TracksRegion":          "Broken Railroad",
+    "RiverValleyRegion":     "Hushed River Valley",
+    "CanneryRegion":         "Bleak Inlet",
+    "AshCanyonRegion":       "Ash Canyon",
+    "BlackrockRegion":       "Blackrock",
+    "Ravine":                "Ravine",
+    "HighwayTransitionZone": "Crumbling Highway",
+    # Mystery Lake
+    "CampOffice":            "Mystery Lake",
+    "LakeCabin":             "Mystery Lake",
+    "Trailer":               "Mystery Lake",
+    "DamTrailer":            "Mystery Lake",
+    "Dam":                   "Mystery Lake",
+    "SafeHouseA":            "Mystery Lake",
+    "PrepperCache":          "Mystery Lake",
+    # Coastal Highway
     "QuonsetGasStation":     "Coastal Highway",
-    "RadioControlHut":       "Coastal Highway",
-    "LighthouseA":           "Coastal Highway",
     "CoastalHouse":          "Coastal Highway",
     "FishingCabin":          "Coastal Highway",
-    "MineTransitionZone":    "Coastal Highway",
-    "HighwayMineTransition": "Coastal Highway",
     "HouseBasementC":        "Coastal Highway",
-    "RuralRegion":           "Pleasant Valley",
+    # Pleasant Valley
     "FarmHouseA":            "Pleasant Valley",
     "BarnHouseA":            "Pleasant Valley",
     "RuralStoreA":           "Pleasant Valley",
-    "CrashMountainRegion":   "Timberwolf Mountain",
+    # Timberwolf Mountain
     "MountainCaveA":         "Timberwolf Mountain",
-    "MountainTownRegion":    "Milton",
-    "MarshRegion":           "Forlorn Muskeg",
-    "WhalingStationRegion":  "Desolation Point",
+    "BlackrockCaveA":        "Timberwolf Mountain",
+    # Milton
+    "BankA":                 "Milton",
+    "ChurchB":               "Milton",
+    "ConvenienceStoreA":     "Milton",
+    "FarmHouseB":            "Milton",
+    "GreyMothersHouseA":     "Milton",
+    "MiltonHouse":           "Milton",
+    "PostOfficeA":           "Milton",
+    # Broken Railroad
+    "MaintenanceShedA":      "Broken Railroad",
+    # Desolation Point
+    "LighthouseA":           "Desolation Point",
     "WhalingShipA":          "Desolation Point",
     "WhalingWarehouseA":     "Desolation Point",
     "WhalingMine":           "Desolation Point",
     "TrailerSShape":         "Desolation Point",
-    "BlackrockRegion":       "Blackrock",
-    "AshCanyonRegion":       "Ash Canyon",
-    "BleakInletRegion":      "Bleak Inlet",
-    "RavineTransitionZone":  "Ravine",
-    "HighwayTransitionZone": "Highway Transition",
-    "TracksRegion":          "Winding River",
 }
 
 # Each entry: (landmark_name, center_x, center_z, min_y, max_y, radius)
@@ -325,33 +346,39 @@ def build_location(scene_name: str, x: Optional[float], y: Optional[float], z: O
     return display
 
 
-# Region labels for the 'region' column
-SCENE_TO_REGION = {
-    "CampOffice":           "Mystery Lake",
-    "LakeCabin":            "Mystery Lake",
-    "Trailer":              "Mystery Lake",
-    "DamTrailer":           "Mystery Lake",
-    "Dam":                  "Mystery Lake",
-    "DamTransition":        "Mystery Lake",
-    "SafeHouseA":           "Mystery Lake",
-    "PrepperCache":         "Mystery Lake",
-    "LakeRegion":           "Mystery Lake",
-    "CoastalRegion":        "Coastal Highway",
-    "MarshRegion":          "Forlorn Muskeg",
-    "WhalingStation":       "Desolation Point",
-    "CrashMountain":        "Timberwolf Mountain",
-    "RuralRegion":          "Pleasant Valley",
-    "MountainTown":         "Milton",
-    "Ravine":               "Ravine",
-    "player_inventory":     "",
-}
+def _static_region(scene_name: str) -> str:
+    """Region from SCENE_TO_REGION, using the longest prefix that matches."""
+    best = ""
+    for prefix in SCENE_TO_REGION:
+        if scene_name.startswith(prefix) and len(prefix) > len(best):
+            best = prefix
+    return SCENE_TO_REGION.get(best, "")
 
-def _region_label(scene_name: str) -> str:
-    if scene_name == "player_inventory":
-        return ""
-    for prefix, region in SCENE_TO_REGION.items():
-        if scene_name.startswith(prefix):
-            return region
+
+def _is_outdoor_zone(scene_name: str) -> bool:
+    """True for region and transition-zone scenes, False for interiors.
+
+    Checked against every scene name in the v2.60 game catalogs.
+    """
+    base = scene_name.split("_")[0]
+    return base.endswith("Region") or "Zone" in base or "TrackSection" in base
+
+
+def region_for_scene(scene_name: str, zone_names: list[str]) -> str:
+    """Region label for a scene, checked against the outdoor zones present in the save.
+
+    Generic interiors such as TrailerC are reused in several regions, so the table's
+    answer is kept only when that region's zone is in the same save. When every zone
+    in the save belongs to one region, an interior can only be in that region.
+    """
+    label = _static_region(scene_name)
+    if _is_outdoor_zone(scene_name) or not zone_names:
+        return label
+    zone_labels = {_static_region(zone) for zone in zone_names}
+    if label and label in zone_labels:
+        return label
+    if len(zone_labels) == 1:
+        return zone_labels.pop()
     return ""
 
 
@@ -370,12 +397,18 @@ def _parse_json_field(val) -> dict:
     return val or {}
 
 
+def _json_value(val: Any) -> Any:
+    """Decode a field that may hold JSON text. Unlike _parse_json_field it also allows lists."""
+    if isinstance(val, str):
+        return json.loads(val) if val.strip() else None
+    return val
+
+
 def _condition(gear: dict) -> Optional[float]:
+    # m_CurrentHPProxy is raw hit points (a wolfskin coat has 500), so it is not a
+    # substitute when the normalized value is missing.
     v = gear.get("m_NormalizedCondition")
-    if v is not None:
-        return round(v * 100, 1)
-    hp = gear.get("m_CurrentHPProxy")
-    return round(hp, 1) if hp is not None else None
+    return round(v * 100, 1) if v is not None else None
 
 
 def _count(gear: dict) -> int:
@@ -412,9 +445,14 @@ class ItemRecord:
     scene: str                   # raw scene key
     region: str                  # e.g. "Mystery Lake"
     location: str                # human-readable location
-    location_type: str           # "player_inventory" | "floor" | "container"
+    location_type: str           # "player_inventory" | "floor" | "scripted" |
+                                 # "container" | "container_unsearched"
     container_prefab: str
+    category: str                # from tld_taxonomy.py, "Unknown" if not listed
+    subcategory: str
     item: str
+    prefab: str                  # GEAR_ name with any Unity " (N)" suffix removed
+    source: str                  # "base", "DLC01", "DLC02", "mod:<pack>", "legacy", "unknown"
     count: int
     condition_pct: Optional[float]
     x: Optional[float]
@@ -429,45 +467,70 @@ class ItemRecord:
 SKIP_SCENES = {"boot", "info", "sandbox_global", "screenshot"}
 
 
+def _make_record(scene: str, region: str, location: str, location_type: str,
+                 container_prefab: str, raw_prefab: str, gear: dict,
+                 x: Optional[float], y: Optional[float], z: Optional[float]) -> "ItemRecord":
+    prefab = normalize_prefab(raw_prefab)
+    category, subcategory, _leaf = TAXONOMY_LOOKUP.get(prefab, ("Unknown", "", ""))
+    return ItemRecord(
+        scene=scene,
+        region=region,
+        location=location,
+        location_type=location_type,
+        container_prefab=container_prefab,
+        category=category,
+        subcategory=subcategory,
+        item=_pretty_name(prefab),
+        prefab=prefab,
+        source=prefab_source(prefab),
+        count=_count(gear),
+        condition_pct=_condition(gear),
+        x=x, y=y, z=z,
+    )
+
+
 def extract_player_inventory(global_scene: dict) -> list:
     records = []
     inv = _parse_json_field(global_scene.get("m_Inventory_Serialized", {}))
     for item in inv.get("m_SerializedItems", []):
         gear = _parse_json_field(item.get("m_SerializedGear", "{}"))
-        records.append(ItemRecord(
-            scene="player_inventory",
-            region="",
-            location="Player Inventory",
-            location_type="player_inventory",
-            container_prefab="",
-            item=_pretty_name(item["m_PrefabName"]),
-            count=_count(gear),
-            condition_pct=_condition(gear),
-            x=None, y=None, z=None,
+        records.append(_make_record(
+            "player_inventory", "", "Player Inventory", "player_inventory", "",
+            item["m_PrefabName"], gear, None, None, None,
         ))
     return records
 
 
-def extract_scene(scene_name: str, scene: dict) -> list:
-    records = []
-    region = _region_label(scene_name)
+def _scripted_items(scene: dict) -> list:
+    """Items the game has placed but not made interactive yet (visor notes, keys).
 
-    # Floor / loose gear
+    They live in m_GearItemInteractabilityControlSerialized, not in the gear manager.
+    """
+    items = []
+    for control in _json_value(scene.get("m_GearItemInteractabilityControlSerialized")) or []:
+        control = _json_value(control) or {}
+        save_list = _json_value(control.get("m_GearSaveList")) or {}
+        items.extend(save_list.get("m_SerializedItems") or [])
+    return items
+
+
+def extract_scene(scene_name: str, scene: dict, region: Optional[str] = None,
+                  include_unsearched: bool = False) -> list:
+    records = []
+    if region is None:
+        region = _static_region(scene_name)
+
+    # Floor / loose gear, then scripted world items
     gear_mgr = _parse_json_field(scene.get("m_GearManagerSerialized", {}))
-    for item in gear_mgr.get("m_SerializedItems", []):
+    world_items = [("floor", item) for item in gear_mgr.get("m_SerializedItems", [])]
+    world_items += [("scripted", item) for item in _scripted_items(scene)]
+    for location_type, item in world_items:
         gear = _parse_json_field(item.get("m_SearializedGear", "{}"))
         x, y, z = _position(gear)
         location = build_location(scene_name, x, y, z)
-        records.append(ItemRecord(
-            scene=scene_name,
-            region=region,
-            location=location,
-            location_type="floor",
-            container_prefab="",
-            item=_pretty_name(item["m_PrefabName"]),
-            count=_count(gear),
-            condition_pct=_condition(gear),
-            x=x, y=y, z=z,
+        records.append(_make_record(
+            scene_name, region, location, location_type, "",
+            item["m_PrefabName"], gear, x, y, z,
         ))
 
     # Containers
@@ -484,51 +547,76 @@ def extract_scene(scene_name: str, scene: dict) -> list:
         for item in cont_data.get("m_SerializedItems", []):
             gear_raw = item.get("m_SearializedGear") or item.get("m_SerializedGear") or "{}"
             gear = _parse_json_field(gear_raw)
-            records.append(ItemRecord(
-                scene=scene_name,
-                region=region,
-                location=location,
-                location_type="container",
-                container_prefab=cont_prefab,
-                item=_pretty_name(item["m_PrefabName"]),
-                count=_count(gear),
-                condition_pct=_condition(gear),
-                x=cx, y=cy, z=cz,
+            records.append(_make_record(
+                scene_name, region, location, "container", cont_prefab,
+                item["m_PrefabName"], gear, cx, cy, cz,
             ))
+
+        if include_unsearched:
+            # A container nobody has searched yet stores only the names of the gear
+            # it will create, so there is no count or condition to report.
+            for raw_prefab in cont_data.get("m_GearToInstantiateSerialized") or []:
+                records.append(_make_record(
+                    scene_name, region, location, "container_unsearched", cont_prefab,
+                    raw_prefab, {}, cx, cy, cz,
+                ))
 
     return records
 
 
-def load_save(path: Path) -> list:
+@dataclass
+class SaveContents:
+    records: list                # ItemRecord, in save order
+    header: dict                 # the save's top-level fields, without m_Dict
+    failed_scenes: list          # scene keys that could not be decoded
+
+
+def read_save(path: Path, include_unsearched: bool = False) -> SaveContents:
     raw_file = path.read_bytes()
     outer = json.loads(_decompress(raw_file))
-    all_records = []
+    if not isinstance(outer, dict) or not isinstance(outer.get("m_Dict"), dict):
+        raise ValueError("decoded, but there is no m_Dict scene table, so this is not a TLD save")
+    scenes = outer["m_Dict"]
+    zone_names = [name for name in scenes
+                  if name not in SKIP_SCENES and name != "global" and _is_outdoor_zone(name)]
+    contents = SaveContents(
+        records=[],
+        header={key: value for key, value in outer.items() if key != "m_Dict"},
+        failed_scenes=[],
+    )
 
-    for scene_name, b64_val in outer.get("m_Dict", {}).items():
+    for scene_name, b64_val in scenes.items():
         if scene_name in SKIP_SCENES or not isinstance(b64_val, str):
             continue
         try:
             scene = _decode_scene_blob(b64_val)
-        except Exception as e:
+        except ValueError as e:
             print(f"  [warn] could not decode scene '{scene_name}': {e}", file=sys.stderr)
+            contents.failed_scenes.append(scene_name)
             continue
         if not isinstance(scene, dict):
             continue
 
         if scene_name == "global":
-            all_records.extend(extract_player_inventory(scene))
+            contents.records.extend(extract_player_inventory(scene))
         else:
-            all_records.extend(extract_scene(scene_name, scene))
+            region = region_for_scene(scene_name, zone_names)
+            contents.records.extend(extract_scene(scene_name, scene, region, include_unsearched))
 
-    return all_records
+    return contents
+
+
+def load_save(path: Path) -> list:
+    return read_save(path).records
 
 
 # ---------------------------------------------------------------------------
 # Output
 # ---------------------------------------------------------------------------
 
-HEADERS = ["region", "location", "location_type", "container", "item",
-           "count", "condition_pct", "x", "y", "z"]
+HEADERS = ["region", "location", "location_type", "container",
+           "category", "subcategory", "item",
+           "count", "condition_pct", "x", "y", "z", "prefab", "source"]
 
 
 def print_table(records: list) -> None:
@@ -536,12 +624,14 @@ def print_table(records: list) -> None:
     rows = []
     for r in records:
         row = [
-            r.region, r.location, r.location_type, r.container_prefab, r.item,
+            r.region, r.location, r.location_type, r.container_prefab,
+            r.category, r.subcategory, r.item,
             str(r.count),
             f"{r.condition_pct:.1f}%" if r.condition_pct is not None else "",
             str(r.x) if r.x is not None else "",
             str(r.y) if r.y is not None else "",
             str(r.z) if r.z is not None else "",
+            r.prefab, r.source,
         ]
         rows.append(row)
         for h, v in zip(HEADERS, row):
@@ -561,10 +651,14 @@ def write_csv(records: list, path: Path) -> None:
         writer.writerow(HEADERS)
         for r in records:
             writer.writerow([
-                r.region, r.location, r.location_type, r.container_prefab, r.item,
+                r.region, r.location, r.location_type, r.container_prefab,
+                r.category, r.subcategory, r.item,
                 r.count,
                 round(r.condition_pct, 1) if r.condition_pct is not None else "",
-                r.x or "", r.y or "", r.z or "",
+                r.x if r.x is not None else "",
+                r.y if r.y is not None else "",
+                r.z if r.z is not None else "",
+                r.prefab, r.source,
             ])
     print(f"Wrote {len(records)} rows to {path}")
 
@@ -654,8 +748,9 @@ def _interactive_args():
 
     import types
     return types.SimpleNamespace(
-        save_file=save_path, csv=do_csv,
+        save_file=save_path, csv=do_csv, out=None,
         scene=scene_filter, summary=(mode == "1"),
+        include_unsearched=False,
     )
 
 
@@ -669,16 +764,21 @@ def main() -> None:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python tld_reader.py sandbox1 --summary
-  python tld_reader.py sandbox1 --csv
-  python tld_reader.py sandbox1 --scene CampOffice
-  python tld_reader.py sandbox1 --scene LakeRegion --csv
+  python tld_save_reader.py sandbox1 --summary
+  python tld_save_reader.py sandbox1 --csv
+  python tld_save_reader.py sandbox1 --out items.csv
+  python tld_save_reader.py sandbox1 --scene CampOffice
+  python tld_save_reader.py sandbox1 --scene LakeRegion --csv
         """,
     )
     parser.add_argument("save_file", type=Path, nargs="?")
     parser.add_argument("--csv", action="store_true", help="Write full item list to CSV")
+    parser.add_argument("--out", type=Path,
+                        help="CSV file to write (default: next to the save file, with a .csv suffix)")
     parser.add_argument("--scene", help="Filter to scenes containing this string")
     parser.add_argument("--summary", action="store_true", help="Print summary stats only")
+    parser.add_argument("--include-unsearched", action="store_true",
+                        help="Also list the loot waiting in containers that have not been searched (spoilers)")
     args = parser.parse_args()
 
     if args.save_file is None:
@@ -688,15 +788,23 @@ Examples:
         sys.exit(f"File not found: {args.save_file}")
 
     print(f"Loading {args.save_file}...", file=sys.stderr)
-    records = load_save(args.save_file)
+    try:
+        records = read_save(args.save_file, args.include_unsearched).records
+    except (OSError, ValueError) as e:
+        sys.exit(f"Could not read {args.save_file}: {e}")
     print(f"Extracted {len(records)} item stacks.", file=sys.stderr)
+
+    unknown = {r.prefab for r in records if r.category == "Unknown"}
+    if unknown:
+        print(f"{len(unknown)} prefab name(s) are not in tld_taxonomy.py. "
+              f"Run tld_prefab_diff.py on this save to list them.", file=sys.stderr)
 
     if args.scene:
         records = [r for r in records if args.scene.lower() in r.scene.lower()]
         print(f"Filtered to '{args.scene}': {len(records)} records.", file=sys.stderr)
 
-    if args.csv:
-        out_path = args.save_file.with_suffix(".csv")
+    if args.csv or args.out:
+        out_path = args.out or args.save_file.with_suffix(".csv")
         write_csv(records, out_path)
     else:
         print_summary(records)
