@@ -1,448 +1,53 @@
 {
-  "new_prefabs": {
-    "GEAR_Balaclava": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_BaseballCap": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_CargoPants": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_ClimbingSocks": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_CombatBoots": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_CombatPants": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_CottonScarf": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_Toque": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_CowichanSweater": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_DeerSkinBoots": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_DeerSkinPants": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_DownVest": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_DressShirt": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_DrivingGloves": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_ExpeditionParka": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_FishermanSweater": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_FleeceCowl": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_FleeceMittens": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_Gauntlets": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_CottonHoodie": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_InsulatedBoots": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_Jeans": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_LeatherShoes": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_LightShell": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_WoolWrap": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_MackinawJacket": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_MarinerPeaCoat": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_MilitaryCoat": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_Mukluks": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_OldFashionedParka": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_PlaidShirt": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_RabbitSkinMittens": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_BasicShoes": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_LightParka": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_SkiBoots": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_SkiGloves": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_SkiJacket": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_SnowPants": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_SportVest": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_CottonSocks": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_Sweatshirt": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_TeeShirt": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_WorkBoots": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_UrbanParka": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_Windbreaker": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_WoolEarWrap": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_Mittens": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_BasicWoolScarf": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_WoolShirt": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_WoolSocks": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_WorkGloves": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_WorkPants": {
-      "wiki_category": "Clothing"
-    },
-    "GEAR_BearSkinBedroll": {
-      "wiki_category": "Tools"
-    },
-    "GEAR_BedRoll": {
-      "wiki_category": "Tools"
-    },
-    "GEAR_CanOpener": {
-      "wiki_category": "Tools"
-    },
-    "GEAR_Hacksaw": {
-      "wiki_category": "Tools"
-    },
-    "GEAR_Hatchet": {
-      "wiki_category": "Tools"
-    },
-    "GEAR_Hammer": {
-      "wiki_category": "Tools"
-    },
-    "GEAR_Hook": {
-      "wiki_category": "Tools"
-    },
-    "GEAR_Knife": {
-      "wiki_category": "Tools"
-    },
-    "GEAR_Rifle": {
-      "wiki_category": "Tools"
-    },
-    "GEAR_KnifeScrapMetal": {
-      "wiki_category": "Tools"
-    },
-    "GEAR_Line": {
-      "wiki_category": "Tools"
-    },
-    "GEAR_Rope": {
-      "wiki_category": "Tools"
-    },
-    "GEAR_Prybar": {
-      "wiki_category": "Tools"
-    },
-    "GEAR_SewingKit": {
-      "wiki_category": "Tools"
-    },
-    "GEAR_SimpleTools": {
-      "wiki_category": "Tools"
-    },
-    "GEAR_Snare": {
-      "wiki_category": "Tools"
-    },
-    "GEAR_Stone": {
-      "wiki_category": "Tools"
-    },
-    "GEAR_KeroseneLampB": {
-      "wiki_category": "Tools"
-    },
-    "GEAR_Bow": {
-      "wiki_category": "Tools"
-    },
-    "GEAR_Torch": {
-      "wiki_category": "Tools"
-    },
-    "GEAR_Travois": {
-      "wiki_category": "Tools"
-    },
-    "GEAR_SharpeningStone": {
-      "wiki_category": "Tools"
-    },
-    "GEAR_Cloth": {
-      "wiki_category": "Materials"
-    },
-    "GEAR_CrowFeather": {
-      "wiki_category": "Materials"
-    },
-    "GEAR_BirchSaplingDried": {
-      "wiki_category": "Materials"
-    },
-    "GEAR_GutDried": {
-      "wiki_category": "Materials"
-    },
-    "GEAR_LeatherDried": {
-      "wiki_category": "Materials"
-    },
-    "GEAR_MapleSaplingDried": {
-      "wiki_category": "Materials"
-    },
-    "GEAR_MooseHide": {
-      "wiki_category": "Materials"
-    },
-    "GEAR_RabbitPeltDried": {
-      "wiki_category": "Materials"
-    },
-    "GEAR_WolfPeltDried": {
-      "wiki_category": "Materials"
-    },
-    "GEAR_Gut": {
-      "wiki_category": "Materials"
-    },
-    "GEAR_LeatherHide": {
-      "wiki_category": "Materials"
-    },
-    "GEAR_WolfPelt": {
-      "wiki_category": "Materials"
-    },
-    "GEAR_ReclaimedWoodB": {
-      "wiki_category": "Materials"
-    },
-    "GEAR_ScrapMetal": {
-      "wiki_category": "Materials"
-    },
-    "GEAR_Stick": {
-      "wiki_category": "Materials"
-    },
-    "GEAR_CookedMeatBear": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_RawMeatBear": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_BeefJerky": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_CookedBurbot": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_RawBurbot": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_CookedCohoSalmon": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_RawCohoSalmon": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_CondensedMilk": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_CookedMeatCougar": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_RawMeatCougar": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_DogFood": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_EnergyBar": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_CookedGoldeye": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_RawGoldeye": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_GranolaBar": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_GreenTeaPackage": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_CookedLakeWhiteFish": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_RawLakeWhiteFish": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_MapleSyrup": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_MRE": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_CookedMeatMoose": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_RawMeatMoose": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_SodaOrange": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_PeanutButter": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_PinnacleCanPeaches": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_CannedBeans": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_CookedRainbowTrout": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_RawRainbowTrout": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_CookedRedIrishLord": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_RawRedIrishLord": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_CookedRockfish": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_RawRockfish": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_Crackers": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_CookedSmallmouthBass": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_RawSmallmouthBass": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_SodaGrape": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_Soda": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_CoffeeTin": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_CannedSardines": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_TomatoSoupCan": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_CookedMeatDeer": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_RawMeatDeer": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_CookedMeatWolf": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_RawMeatWolf": {
-      "wiki_category": "Food_And_Drink"
-    },
-    "GEAR_BottleAntibiotics": {
-      "wiki_category": "First_Aid"
-    },
-    "GEAR_Antiseptic": {
-      "wiki_category": "First_Aid"
-    },
-    "GEAR_HeavyBandage": {
-      "wiki_category": "First_Aid"
-    },
-    "GEAR_BottlePainKillers": {
-      "wiki_category": "First_Aid"
-    }
-  },
+  "new_prefabs": {},
   "unmapped_wiki_items": [
+    "A Handwritten Letter  (wiki cat: Collectibles)",
+    "A Handwritten Note  (wiki cat: Collectibles)",
     "A Note Left Behind  (wiki cat: Collectibles)",
     "A Page From A Journal  (wiki cat: Collectibles)",
+    "A Sewing Primer  (wiki cat: Fire_Starting)",
     "A Sewing Primer  (wiki cat: Tools)",
     "A Sewing Primer (The Basics of Survival)  (wiki cat: Collectibles)",
     "A Skeleton And Note  (wiki cat: Tools)",
     "A page from an old newsletter.  (wiki cat: Collectibles)",
+    "Accelerant  (wiki cat: Fire_Starting)",
     "Acorn Bannock  (wiki cat: Food_And_Drink)",
+    "Acorn Grounds  (wiki cat: Food_And_Drink)",
     "Acorn Grounds  (wiki cat: Materials)",
     "Acorn Pancakes  (wiki cat: Food_And_Drink)",
+    "Acorns  (wiki cat: Food_And_Drink)",
     "Acorns  (wiki cat: Materials)",
     "Acorns (Cooked - Large Portion)  (wiki cat: Food_And_Drink)",
     "Acorns (Cooked)  (wiki cat: Food_And_Drink)",
     "Admin Office Key  (wiki cat: Collectibles)",
+    "Advanced Guns Guns Guns!  (wiki cat: Fire_Starting)",
     "Advanced Guns Guns Guns!  (wiki cat: Tools)",
     "Advanced Guns Guns Guns! (Survival School)  (wiki cat: Collectibles)",
     "Aid Station Medical Locker Key  (wiki cat: Collectibles)",
     "Airline Food - Chicken  (wiki cat: Food_And_Drink)",
     "Airline Food - Vegetarian  (wiki cat: Food_And_Drink)",
+    "Alice McLeod's Journal 01  (wiki cat: Collectibles)",
     "An Old House Key  (wiki cat: Collectibles)",
+    "An Old Logbook  (wiki cat: Collectibles)",
     "Animal Fat  (wiki cat: Food_And_Drink)",
     "Archival Report  (wiki cat: Collectibles)",
     "Arrow Shaft  (wiki cat: Materials)",
     "Arrowhead  (wiki cat: Materials)",
+    "Astrid's Backpack  (wiki cat: Story_items)",
     "Astrid's Backpack  (wiki cat: Tools)",
     "Astrid's Boots  (wiki cat: Clothing)",
+    "Astrid's Boots  (wiki cat: Story_items)",
     "Astrid's Gloves  (wiki cat: Clothing)",
+    "Astrid's Gloves  (wiki cat: Story_items)",
+    "Astrid's Hardcase  (wiki cat: Story_items)",
     "Astrid's Jacket  (wiki cat: Clothing)",
+    "Astrid's Jacket  (wiki cat: Story_items)",
     "Astrid's Jeans  (wiki cat: Clothing)",
+    "Astrid's Jeans  (wiki cat: Story_items)",
     "Astrid's Sweater  (wiki cat: Clothing)",
+    "Astrid's Sweater  (wiki cat: Story_items)",
     "Astrid's Toque  (wiki cat: Clothing)",
+    "Astrid's Toque  (wiki cat: Story_items)",
     "Aurora Hatch Door Entry Code  (wiki cat: Collectibles)",
     "Aurora Observations  (wiki cat: Collectibles)",
     "Aviator Cap  (wiki cat: Clothing)",
@@ -454,14 +59,21 @@
     "Bank Vault Code  (wiki cat: Collectibles)",
     "Bannock  (wiki cat: Food_And_Drink)",
     "Barb's Rifle  (wiki cat: Tools)",
+    "Barrel  (wiki cat: Story_items)",
     "Basement Key  (wiki cat: Collectibles)",
     "Bear Quarter  (wiki cat: Food_And_Drink)",
     "Bear Spear  (wiki cat: Tools)",
     "Bearskin Coat  (wiki cat: Clothing)",
+    "Bed  (wiki cat: Story_items)",
     "Betrayal  (wiki cat: Collectibles)",
     "Big Bass (Cooked)  (wiki cat: Food_And_Drink)",
     "Big Bass (Raw)  (wiki cat: Food_And_Drink)",
+    "Birch Bark  (wiki cat: Fire_Starting)",
+    "Birch Bark  (wiki cat: Food_And_Drink)",
     "Birch Bark Tea  (wiki cat: First_Aid)",
+    "Birch Bark Tea  (wiki cat: Food_And_Drink)",
+    "Black Bear Carcass  (wiki cat: Story_items)",
+    "Blackrock Foothills Map  (wiki cat: Collectibles)",
     "Blackrock Gate Key  (wiki cat: Collectibles)",
     "Blackrock Infirmary Medication  (wiki cat: First_Aid)",
     "Blackrock Locker Key 2  (wiki cat: Collectibles)",
@@ -478,14 +90,22 @@
     "Blood Stained-Convict Note  (wiki cat: Collectibles)",
     "Bloody note  (wiki cat: Collectibles)",
     "Bolt Cutters  (wiki cat: Tools)",
+    "Book  (wiki cat: Fire_Starting)",
+    "Brake Shoe  (wiki cat: Materials)",
+    "Branch  (wiki cat: Story_items)",
     "Brand  (wiki cat: Tools)",
+    "Brass Key  (wiki cat: Collectibles)",
+    "Brass Key (2)  (wiki cat: Collectibles)",
     "Breyerhouse Crew Winter Warning  (wiki cat: Collectibles)",
     "Breyerhouse Pie  (wiki cat: Food_And_Drink)",
+    "Broken Arrow  (wiki cat: Story_items)",
     "Broken Arrow  (wiki cat: Tools)",
     "Broken Bear Spear  (wiki cat: Tools)",
     "Broken Fire Hardened Arrow  (wiki cat: Tools)",
     "Broken Hatch Wheel  (wiki cat: Tools)",
     "Broken Manufactured Arrow  (wiki cat: Tools)",
+    "Broken Metal Bed Frame  (wiki cat: Story_items)",
+    "Broken Metal Control Box  (wiki cat: Story_items)",
     "Broth  (wiki cat: Food_And_Drink)",
     "Buffer Memories  (wiki cat: Collectibles)",
     "Building Blackrock  (wiki cat: Collectibles)",
@@ -494,30 +114,40 @@
     "Bunker Schematic Fragment 1  (wiki cat: Collectibles)",
     "Bunker Schematic Fragment 2  (wiki cat: Collectibles)",
     "Bunker Schematic Fragment 3  (wiki cat: Collectibles)",
+    "Burdock Root  (wiki cat: Food_And_Drink)",
     "Burdock Root  (wiki cat: Materials)",
     "Burdock Tea  (wiki cat: First_Aid)",
+    "Burdock Tea  (wiki cat: Food_And_Drink)",
     "Burned Out Fuse  (wiki cat: Tools)",
     "Bushcraft Bow  (wiki cat: Tools)",
     "Bushcraft Bow Blueprint Card  (wiki cat: Collectibles)",
+    "Cabinet  (wiki cat: Story_items)",
+    "Cabinet Door  (wiki cat: Story_items)",
     "Caffeine Pills  (wiki cat: First_Aid)",
+    "Caffeine Pills  (wiki cat: Food_And_Drink)",
     "Cairns  (wiki cat: Collectibles)",
     "Camber Flight Porridge  (wiki cat: Food_And_Drink)",
     "Camera  (wiki cat: Tools)",
+    "Campfire  (wiki cat: Fire_Starting)",
     "Can of Gunpowder  (wiki cat: Tools)",
     "Canister  (wiki cat: First_Aid)",
     "Canned Corn  (wiki cat: Food_And_Drink)",
     "Canned Ham  (wiki cat: Food_And_Drink)",
     "Canned Pineapple  (wiki cat: Food_And_Drink)",
     "Cannery Memo  (wiki cat: Collectibles)",
+    "Car Battery  (wiki cat: Story_items)",
     "Car Battery  (wiki cat: Tools)",
     "Carrot  (wiki cat: Food_And_Drink)",
     "Carter Hydro Dam (Collectible)  (wiki cat: Collectibles)",
     "Carter Hydro Dam -- Safety & Shutdown Notice  (wiki cat: Collectibles)",
     "Carter Hydro Medical Supplies  (wiki cat: Collectibles)",
     "Carter Hydro Staging Area Gate Key  (wiki cat: Collectibles)",
+    "Cash  (wiki cat: Fire_Starting)",
     "Cat Tail Stalk  (wiki cat: Food_And_Drink)",
     "Cave Hidden Cache Note  (wiki cat: Collectibles)",
+    "Cedar Firewood  (wiki cat: Fire_Starting)",
     "Cedar Firewood  (wiki cat: Materials)",
+    "Cedar Limb  (wiki cat: Story_items)",
     "Cereal  (wiki cat: Food_And_Drink)",
     "Charcoal  (wiki cat: Tools)",
     "Charcoal Note  (wiki cat: Collectibles)",
@@ -527,6 +157,8 @@
     "Church Artifact  (wiki cat: Collectibles)",
     "Church Flyer  (wiki cat: Collectibles)",
     "Climber's Journal Page  (wiki cat: Collectibles)",
+    "Clipboard With Medical Documents  (wiki cat: Collectibles)",
+    "Cloth (Object)  (wiki cat: Story_items)",
     "Clothing  (wiki cat: Clothing)",
     "Coastal Fishcakes  (wiki cat: Food_And_Drink)",
     "Collectibles  (wiki cat: Collectibles)",
@@ -547,6 +179,8 @@
     "Cougar Warning Flyer  (wiki cat: Collectibles)",
     "Cougar Warning Flyer (2)  (wiki cat: Collectibles)",
     "Crampons  (wiki cat: Clothing)",
+    "Crane Key  (wiki cat: Collectibles)",
+    "Crank Light  (wiki cat: Tools)",
     "Crumpled Note  (wiki cat: Collectibles)",
     "Crumpled Note (2)  (wiki cat: Collectibles)",
     "Cup of Acorn Coffee  (wiki cat: Food_And_Drink)",
@@ -558,36 +192,51 @@
     "Cured Deer Hide  (wiki cat: Materials)",
     "Cured Fish  (wiki cat: Food_And_Drink)",
     "Cured Meat  (wiki cat: Food_And_Drink)",
+    "Curtain  (wiki cat: Story_items)",
     "Dam Control Room Code  (wiki cat: Collectibles)",
+    "Deer Carcass  (wiki cat: Story_items)",
     "Deer Quarter  (wiki cat: Food_And_Drink)",
     "Detonators  (wiki cat: Collectibles)",
+    "Diary  (wiki cat: Collectibles)",
     "Diary Page  (wiki cat: Collectibles)",
     "Diary Page (Darkwalker)  (wiki cat: Collectibles)",
     "Diocese Report  (wiki cat: Collectibles)",
     "Distress Pistol  (wiki cat: Tools)",
+    "Distress Pistol Kit  (wiki cat: Story_items)",
     "Distress Pistol Kit  (wiki cat: Tools)",
     "Dockworker's Pie  (wiki cat: Food_And_Drink)",
     "Document Stash 1  (wiki cat: Tools)",
     "Document Stash 2  (wiki cat: Tools)",
     "Document Stash 3  (wiki cat: Tools)",
     "Document Stash 4  (wiki cat: Tools)",
+    "Dr Larsen's Clipboard  (wiki cat: Collectibles)",
     "Dried Apples  (wiki cat: Food_And_Drink)",
     "Dusting Sulfur  (wiki cat: Materials)",
+    "Dusty Paper  (wiki cat: Collectibles)",
     "Elevator Crank  (wiki cat: Collectibles)",
     "Elevator Maintenance Note  (wiki cat: Collectibles)",
+    "Emergency Food  (wiki cat: Story_items)",
     "Emergency Food  (wiki cat: Tools)",
+    "Emergency Kit  (wiki cat: Story_items)",
     "Emergency Kit Note  (wiki cat: Collectibles)",
     "Emergency Stim  (wiki cat: First_Aid)",
     "Faded Notebook Paper  (wiki cat: Collectibles)",
     "Faded Paper  (wiki cat: Collectibles)",
+    "Faded Paper (2)  (wiki cat: Collectibles)",
     "Faded Photograph  (wiki cat: Collectibles)",
     "Festive Sweater  (wiki cat: Clothing)",
     "Field 31 Operation Memo  (wiki cat: Collectibles)",
+    "Field Dressing Your Kill, Vol. I  (wiki cat: Fire_Starting)",
     "Field Dressing Your Kill, Vol. I  (wiki cat: Tools)",
     "Field Dressing Your Kill, Vol. I (The Basics of Survival)  (wiki cat: Collectibles)",
+    "Fir Firewood  (wiki cat: Fire_Starting)",
     "Fir Firewood  (wiki cat: Materials)",
+    "Fir Limb  (wiki cat: Story_items)",
+    "Fire Barrel  (wiki cat: Fire_Starting)",
     "Fire Hardened Arrow  (wiki cat: Tools)",
     "Firearm Cleaning Kit  (wiki cat: Tools)",
+    "Firelog  (wiki cat: Fire_Starting)",
+    "Fireplace  (wiki cat: Fire_Starting)",
     "First Aid Kit (tool)  (wiki cat: Tools)",
     "Fishing Bait  (wiki cat: Tools)",
     "Fishing Lure (Acorns)  (wiki cat: Tools)",
@@ -597,8 +246,10 @@
     "Fishing Tip-Up  (wiki cat: Tools)",
     "Flare  (wiki cat: Tools)",
     "Flare Shell  (wiki cat: Tools)",
+    "Flashlight  (wiki cat: Story_items)",
     "Flashlight  (wiki cat: Tools)",
     "Flight Jacket  (wiki cat: Clothing)",
+    "Food And Drink  (wiki cat: Food_And_Drink)",
     "Foreman's Key  (wiki cat: Collectibles)",
     "Foreman's Polaroid 1  (wiki cat: Collectibles)",
     "Foreman's Polaroid 2  (wiki cat: Collectibles)",
@@ -630,22 +281,33 @@
     "Fresh Black Bear Hide  (wiki cat: Materials)",
     "Fresh Cougar Hide  (wiki cat: Materials)",
     "Fresh Deer Hide  (wiki cat: Materials)",
+    "Frontier Shooting Guide  (wiki cat: Fire_Starting)",
     "Frontier Shooting Guide  (wiki cat: Tools)",
     "Frontier Shooting Guide (Survival School)  (wiki cat: Collectibles)",
+    "Fuel Cover  (wiki cat: Story_items)",
+    "Furnace  (wiki cat: Fire_Starting)",
+    "Garage Key  (wiki cat: Collectibles)",
     "Go! Energy Drink  (wiki cat: First_Aid)",
+    "Go! Energy Drink  (wiki cat: Food_And_Drink)",
     "Gold Nugget  (wiki cat: Collectibles)",
+    "Grate  (wiki cat: Story_items)",
     "Great Bear Wolf Behaviour Study  (wiki cat: Collectibles)",
     "Green Maple Sapling  (wiki cat: Materials)",
     "Grey Mother's Pearls  (wiki cat: Collectibles)",
     "Grey Mother's Safety Deposit Box  (wiki cat: Collectibles)",
+    "Hand Cart  (wiki cat: Story_items)",
     "Handheld Shortwave Radio  (wiki cat: Tools)",
     "Handwritten Note  (wiki cat: Collectibles)",
+    "Handwritten Note (2)  (wiki cat: Collectibles)",
+    "Handwritten Note (3)  (wiki cat: Collectibles)",
     "Handwritten Note (Survival)  (wiki cat: Collectibles)",
+    "Handwritten Prescription  (wiki cat: Collectibles)",
     "Hank's Journal - Part One  (wiki cat: Collectibles)",
     "Hank's Journal - Part Two  (wiki cat: Collectibles)",
     "Hank's Lock Box Key  (wiki cat: Collectibles)",
     "Hank's Prepper Cache Code  (wiki cat: Collectibles)",
     "Hardhat  (wiki cat: Clothing)",
+    "Hatch  (wiki cat: Story_items)",
     "Heat Pack  (wiki cat: First_Aid)",
     "Highway Robbery  (wiki cat: Collectibles)",
     "History of The Collapse  (wiki cat: Collectibles)",
@@ -664,6 +326,7 @@
     "ID - S. Gagne  (wiki cat: Collectibles)",
     "ID - T. Chan  (wiki cat: Collectibles)",
     "ID - V. Singh  (wiki cat: Collectibles)",
+    "ID Card  (wiki cat: Collectibles)",
     "ID Naomi Moore  (wiki cat: Collectibles)",
     "Illegible Note  (wiki cat: Collectibles)",
     "Improvised Crampons  (wiki cat: Clothing)",
@@ -682,6 +345,7 @@
     "Jeremiah's Knife  (wiki cat: Tools)",
     "Jeremiah's Papers  (wiki cat: Collectibles)",
     "Jeremiah's Repaired Rifle  (wiki cat: Collectibles)",
+    "Jerry Can  (wiki cat: Fire_Starting)",
     "Jerry Can  (wiki cat: Tools)",
     "Joplin's Journal, Part One  (wiki cat: Collectibles)",
     "Joplin's Journal, Part Two  (wiki cat: Collectibles)",
@@ -690,11 +354,13 @@
     "Key To Lake Cabin 1  (wiki cat: Collectibles)",
     "Key To Lake Cabin 2  (wiki cat: Collectibles)",
     "Key To Lake Cabin 3  (wiki cat: Collectibles)",
+    "Ladder  (wiki cat: Story_items)",
     "Langston Mine Memo  (wiki cat: Collectibles)",
     "Last Resort Soup  (wiki cat: Food_And_Drink)",
     "Letter  (wiki cat: Collectibles)",
     "Letter (Car)  (wiki cat: Collectibles)",
     "Letter for Hank's Niece  (wiki cat: Collectibles)",
+    "Lily's Map  (wiki cat: Story_items)",
     "Lily's Pancakes  (wiki cat: Food_And_Drink)",
     "Lily's Trunk Key  (wiki cat: Collectibles)",
     "Local Legends - Ghost Stag  (wiki cat: Collectibles)",
@@ -703,18 +369,31 @@
     "Local Legends - The Lost Cave  (wiki cat: Collectibles)",
     "Lock Box Key  (wiki cat: Collectibles)",
     "Lock Box Key (Predux)  (wiki cat: Collectibles)",
+    "Locker Key  (wiki cat: Collectibles)",
     "Logging Camp Trailer Key  (wiki cat: Collectibles)",
     "Lost Worker's Note  (wiki cat: Collectibles)",
     "Lost in the Storm  (wiki cat: Collectibles)",
     "Mackenzie's Boots  (wiki cat: Clothing)",
+    "Mackenzie's Boots  (wiki cat: Story_items)",
     "Mackenzie's Pants  (wiki cat: Clothing)",
+    "Mackenzie's Pants  (wiki cat: Story_items)",
     "Mackenzie's Parka  (wiki cat: Clothing)",
+    "Mackenzie's Parka  (wiki cat: Story_items)",
     "Mackenzie's Shirt  (wiki cat: Clothing)",
+    "Mackenzie's Shirt  (wiki cat: Story_items)",
     "Mackenzie's Sweater  (wiki cat: Clothing)",
+    "Mackenzie's Sweater  (wiki cat: Story_items)",
     "Mackenzie's Toque  (wiki cat: Clothing)",
+    "Mackenzie's Toque  (wiki cat: Story_items)",
+    "Mailbox  (wiki cat: Story_items)",
     "Manufactured Arrow  (wiki cat: Tools)",
+    "Map (Church)  (wiki cat: Collectibles)",
+    "Map (Train)  (wiki cat: Collectibles)",
     "Map of Pleasant Valley  (wiki cat: Collectibles)",
+    "Marine Flare  (wiki cat: Story_items)",
     "Marine Flare  (wiki cat: Tools)",
+    "McLeod Ultra-Efficiency Whale Oil Heater  (wiki cat: Tools)",
+    "Medical Log  (wiki cat: Collectibles)",
     "Medicinal Plants of Great Bear  (wiki cat: Collectibles)",
     "Medicinal Plants of Great Bear (Note)  (wiki cat: Collectibles)",
     "Medicine in my backyard  (wiki cat: Collectibles)",
@@ -726,6 +405,13 @@
     "Mementos  (wiki cat: Collectibles)",
     "Memo  (wiki cat: Collectibles)",
     "Memo (Survival)  (wiki cat: Collectibles)",
+    "Metal Chair  (wiki cat: Story_items)",
+    "Metal Lamp  (wiki cat: Story_items)",
+    "Metal Pail  (wiki cat: Story_items)",
+    "Metal Pan  (wiki cat: Story_items)",
+    "Metal Pot  (wiki cat: Story_items)",
+    "Microwave  (wiki cat: Story_items)",
+    "Military Stim  (wiki cat: First_Aid)",
     "Milton Credit Union Letter  (wiki cat: Collectibles)",
     "Milton Hidden Cache Note  (wiki cat: Collectibles)",
     "Milton Post Office Note  (wiki cat: Collectibles)",
@@ -738,10 +424,12 @@
     "Miner's Pants  (wiki cat: Clothing)",
     "Mining Log Page  (wiki cat: Collectibles)",
     "Mining Newsletter  (wiki cat: Collectibles)",
+    "Moose Carcass  (wiki cat: Story_items)",
     "Moose Quarter  (wiki cat: Food_And_Drink)",
     "Moose-Hide Cloak  (wiki cat: Clothing)",
     "Moose-Hide Satchel  (wiki cat: Clothing)",
     "Mountaineering Boots  (wiki cat: Clothing)",
+    "Mountaineering Boots  (wiki cat: Story_items)",
     "My Testament  (wiki cat: Collectibles)",
     "Mysterious Note  (wiki cat: Collectibles)",
     "Mystery Lake & Area  (wiki cat: Collectibles)",
@@ -751,17 +439,21 @@
     "Newspaper Clipping  (wiki cat: Collectibles)",
     "Newspaper Clipping 2  (wiki cat: Collectibles)",
     "Noisemaker  (wiki cat: Tools)",
+    "Note  (wiki cat: Collectibles)",
     "Note (EP4)  (wiki cat: Collectibles)",
     "Note (Forsaken Airfield)  (wiki cat: Collectibles)",
     "Note (Sundered Pass)  (wiki cat: Collectibles)",
     "Note (Survival 2)  (wiki cat: Collectibles)",
     "Note (Survival)  (wiki cat: Collectibles)",
+    "Note From Dr Larsen  (wiki cat: Collectibles)",
     "Notebook Page  (wiki cat: Collectibles)",
     "Notebook Page (Survival 2)  (wiki cat: Collectibles)",
     "Notebook Page (Survival)  (wiki cat: Collectibles)",
+    "Notebook Paper  (wiki cat: Collectibles)",
     "Notes  (wiki cat: Collectibles)",
     "Off Season Fun  (wiki cat: Collectibles)",
     "Office Memo  (wiki cat: Collectibles)",
+    "Old Bedroll  (wiki cat: Story_items)",
     "Old Man's Beard Lichen  (wiki cat: Materials)",
     "Old Man's Beard Wound Dressing  (wiki cat: Materials)",
     "Old Mill Flour  (wiki cat: Food_And_Drink)",
@@ -770,8 +462,10 @@
     "Orca Gas Store Notice  (wiki cat: Collectibles)",
     "Page  (wiki cat: Collectibles)",
     "Page (2)  (wiki cat: Collectibles)",
+    "Pallets  (wiki cat: Story_items)",
     "Pancakes  (wiki cat: Food_And_Drink)",
     "Paper  (wiki cat: Collectibles)",
+    "Paper Fragment  (wiki cat: Collectibles)",
     "Paradise Meadows Farm Key  (wiki cat: Collectibles)",
     "Park Notice  (wiki cat: Collectibles)",
     "Park Warning Notice  (wiki cat: Collectibles)",
@@ -785,23 +479,37 @@
     "Patterned Wool Socks (Plaid)  (wiki cat: Clothing)",
     "Peach Pie  (wiki cat: Food_And_Drink)",
     "Pemmican Bar  (wiki cat: Food_And_Drink)",
+    "Phone Box  (wiki cat: Story_items)",
     "Pickles  (wiki cat: Food_And_Drink)",
+    "Piece Of Paper  (wiki cat: Collectibles)",
+    "Piece of Paper  (wiki cat: Collectibles)",
+    "Pillow  (wiki cat: Story_items)",
+    "Pinned Note  (wiki cat: Collectibles)",
+    "Play Me  (wiki cat: Collectibles)",
     "Pleasant Valley Collectible, Part One  (wiki cat: Collectibles)",
     "Pleasant Valley Collectible, Part Three  (wiki cat: Collectibles)",
     "Pleasant Valley Collectible, Part Two  (wiki cat: Collectibles)",
     "Pleasant Valley History  (wiki cat: Collectibles)",
+    "Poisoned Wolf Carcass  (wiki cat: Story_items)",
     "Polaroids  (wiki cat: Collectibles)",
     "Porridge  (wiki cat: Food_And_Drink)",
     "Porter's Soup  (wiki cat: Food_And_Drink)",
+    "Pot Belly Stove  (wiki cat: Fire_Starting)",
     "Potato  (wiki cat: Food_And_Drink)",
     "Power Company ID  (wiki cat: Collectibles)",
+    "Practical Gunsmithing  (wiki cat: Fire_Starting)",
     "Practical Gunsmithing  (wiki cat: Tools)",
+    "Prepared Acorns  (wiki cat: Food_And_Drink)",
     "Prepared Acorns  (wiki cat: Materials)",
+    "Prepared Acorns (Large Portion)  (wiki cat: Food_And_Drink)",
     "Prepared Acorns (Large Portion)  (wiki cat: Materials)",
     "Prepared Birch Bark  (wiki cat: First_Aid)",
+    "Prepared Birch Bark  (wiki cat: Food_And_Drink)",
     "Prepared Burdock  (wiki cat: First_Aid)",
     "Prepared Burdock  (wiki cat: Food_And_Drink)",
     "Prepared Reishi Mushrooms  (wiki cat: First_Aid)",
+    "Prepared Reishi Mushrooms  (wiki cat: Food_And_Drink)",
+    "Prepared Rose Hips  (wiki cat: Food_And_Drink)",
     "Prepper Hatch Location  (wiki cat: Collectibles)",
     "Prepper's Pie  (wiki cat: Food_And_Drink)",
     "Prison Transport Manifest  (wiki cat: Collectibles)",
@@ -813,6 +521,7 @@
     "Ptarmigan Stew  (wiki cat: Food_And_Drink)",
     "Public Notice  (wiki cat: Collectibles)",
     "Pumpkin Pie  (wiki cat: Food_And_Drink)",
+    "Quality Tools  (wiki cat: Story_items)",
     "Quality Tools  (wiki cat: Tools)",
     "Rabbit (Cooked)  (wiki cat: Food_And_Drink)",
     "Rabbit (Raw)  (wiki cat: Food_And_Drink)",
@@ -820,12 +529,16 @@
     "Rabbit Pie  (wiki cat: Food_And_Drink)",
     "Rabbit Stew  (wiki cat: Food_And_Drink)",
     "Rabbitskin Hat  (wiki cat: Clothing)",
+    "Rabbitskin Hat  (wiki cat: Story_items)",
     "Radio Parts  (wiki cat: Collectibles)",
     "Ranger Stew  (wiki cat: Food_And_Drink)",
+    "Ravaged Deer Remains  (wiki cat: Story_items)",
     "Recipe Cards  (wiki cat: Collectibles)",
     "Recycled Can  (wiki cat: Tools)",
+    "Reishi Mushroom  (wiki cat: Food_And_Drink)",
     "Reishi Mushroom  (wiki cat: Materials)",
     "Reishi Tea  (wiki cat: First_Aid)",
+    "Reishi Tea  (wiki cat: Food_And_Drink)",
     "Replacement Fuse  (wiki cat: Tools)",
     "Respirator  (wiki cat: First_Aid)",
     "Revolver  (wiki cat: Tools)",
@@ -833,12 +546,16 @@
     "Revolver Shell Casing  (wiki cat: Materials)",
     "Rifle Ammunition  (wiki cat: Tools)",
     "Rifle Shell Casing  (wiki cat: Materials)",
+    "Rim Grill  (wiki cat: Fire_Starting)",
     "Rosary  (wiki cat: Collectibles)",
+    "Rose Hip  (wiki cat: Food_And_Drink)",
     "Rose Hip  (wiki cat: Materials)",
+    "Rose Hip  (wiki cat: Story_items)",
     "Rose Hip Pie  (wiki cat: Food_And_Drink)",
     "Rose Hip Tea  (wiki cat: First_Aid)",
     "Rose Hip Tea  (wiki cat: Food_And_Drink)",
     "Running River Oats  (wiki cat: Food_And_Drink)",
+    "Rusty Key  (wiki cat: Collectibles)",
     "R\u00fcdiger's Diary 1  (wiki cat: Collectibles)",
     "R\u00fcdiger's Diary 2  (wiki cat: Collectibles)",
     "R\u00fcdiger's Diary 3  (wiki cat: Collectibles)",
@@ -846,7 +563,9 @@
     "Salt  (wiki cat: Food_And_Drink)",
     "Salt (Bag)  (wiki cat: Food_And_Drink)",
     "Scrap Lead  (wiki cat: Materials)",
+    "Scrap Metal Shard  (wiki cat: Story_items)",
     "Scrap Metal Shard  (wiki cat: Tools)",
+    "Sea Charts  (wiki cat: Collectibles)",
     "Security Chief's ID Badge  (wiki cat: Collectibles)",
     "Security Chief's Log (illegible)  (wiki cat: Collectibles)",
     "Security Chief's Log 14  (wiki cat: Collectibles)",
@@ -856,26 +575,40 @@
     "Security Chief's Log 32  (wiki cat: Collectibles)",
     "Security Chief's Log 33  (wiki cat: Collectibles)",
     "Security Chief's Log 6  (wiki cat: Collectibles)",
+    "Shopping List  (wiki cat: Collectibles)",
+    "Shotgun  (wiki cat: Tools)",
+    "Shotgun Ammunition  (wiki cat: Tools)",
+    "Shotgun Shell Casing  (wiki cat: Tools)",
     "Simple Arrow  (wiki cat: Tools)",
     "Simple Fishing Lure  (wiki cat: Tools)",
     "Simple Note  (wiki cat: Collectibles)",
+    "Small Arms Handbook  (wiki cat: Fire_Starting)",
     "Small Arms Handbook  (wiki cat: Tools)",
+    "Soggy Note  (wiki cat: Collectibles)",
     "Spear Head  (wiki cat: Tools)",
     "Spelunker's Lantern  (wiki cat: Tools)",
     "Sport Bow  (wiki cat: Tools)",
     "Spray Paint  (wiki cat: Tools)",
     "Spray Paint - Glyph  (wiki cat: Tools)",
+    "Stack of Papers  (wiki cat: Fire_Starting)",
     "Stained Paper  (wiki cat: Collectibles)",
     "Stalker's Pie  (wiki cat: Food_And_Drink)",
+    "Stay on Target  (wiki cat: Fire_Starting)",
     "Stay on Target  (wiki cat: Tools)",
+    "Stove  (wiki cat: Fire_Starting)",
     "Stump Remover  (wiki cat: Materials)",
+    "Supply Room Key  (wiki cat: Collectibles)",
     "Survival Knife  (wiki cat: Tools)",
+    "Survive the Outdoors!  (wiki cat: Fire_Starting)",
     "Survive the Outdoors!  (wiki cat: Tools)",
     "Sutherland's Note  (wiki cat: Collectibles)",
+    "Switch Box  (wiki cat: Story_items)",
     "T-Shirt (CM)  (wiki cat: Clothing)",
     "T-Shirt (GBI)  (wiki cat: Clothing)",
     "T-Shirt (Snappy)  (wiki cat: Clothing)",
+    "Table  (wiki cat: Story_items)",
     "Tactical Gloves  (wiki cat: Clothing)",
+    "Tactical Gloves  (wiki cat: Story_items)",
     "Tactical Jacket  (wiki cat: Clothing)",
     "Tearful Letter  (wiki cat: Collectibles)",
     "Technical Backpack  (wiki cat: Collectibles)",
@@ -883,6 +616,7 @@
     "Template:Infobox/Item  (wiki cat: Tools)",
     "Template:Infobox/Item/doc  (wiki cat: Tools)",
     "Thankyou Letter  (wiki cat: Collectibles)",
+    "The Frozen Angler  (wiki cat: Fire_Starting)",
     "The Frozen Angler  (wiki cat: Tools)",
     "The Frozen Angler (Survival School)  (wiki cat: Collectibles)",
     "The Old Bear's Ear  (wiki cat: Collectibles)",
@@ -891,12 +625,21 @@
     "Thermal Underwear  (wiki cat: Clothing)",
     "Thick Wool Sweater  (wiki cat: Clothing)",
     "Thin Wool Sweater  (wiki cat: Clothing)",
+    "Thin Wool Sweater  (wiki cat: Story_items)",
     "Thomson Family Stew  (wiki cat: Food_And_Drink)",
+    "Timberwolf Carcass  (wiki cat: Story_items)",
+    "Tinder Plug  (wiki cat: Fire_Starting)",
+    "Toaster  (wiki cat: Story_items)",
     "Tools  (wiki cat: Tools)",
+    "Torn Page  (wiki cat: Collectibles)",
     "Torn Paper  (wiki cat: Collectibles)",
     "Town of Milton  (wiki cat: Collectibles)",
+    "Track Switch  (wiki cat: Story_items)",
+    "Train Key  (wiki cat: Collectibles)",
+    "Train Lever  (wiki cat: Collectibles)",
     "Transponder Parts  (wiki cat: Collectibles)",
     "Trash Can Letter  (wiki cat: Collectibles)",
+    "Trauma Kit  (wiki cat: Collectibles)",
     "Trout Stew  (wiki cat: Food_And_Drink)",
     "Undelivered Letter  (wiki cat: Collectibles)",
     "User:Aescopalus/Sandbox2  (wiki cat: Tools)",
@@ -907,25 +650,54 @@
     "Venison Pie  (wiki cat: Food_And_Drink)",
     "Venison Stew  (wiki cat: Food_And_Drink)",
     "Vitamin-C Pills  (wiki cat: First_Aid)",
+    "Vitamin-C Pills  (wiki cat: Food_And_Drink)",
     "Warden's Revolver  (wiki cat: Tools)",
     "Water (Potable)  (wiki cat: Food_And_Drink)",
     "Water (Unsafe)  (wiki cat: Food_And_Drink)",
     "Water Purification Tablets  (wiki cat: First_Aid)",
+    "Water Stained Paper  (wiki cat: Collectibles)",
+    "Wax Cylinder 1  (wiki cat: Collectibles)",
+    "Wax Cylinder 10  (wiki cat: Collectibles)",
+    "Wax Cylinder 11  (wiki cat: Collectibles)",
+    "Wax Cylinder 12  (wiki cat: Collectibles)",
+    "Wax Cylinder 13  (wiki cat: Collectibles)",
+    "Wax Cylinder 14  (wiki cat: Collectibles)",
+    "Wax Cylinder 15  (wiki cat: Collectibles)",
+    "Wax Cylinder 16  (wiki cat: Collectibles)",
+    "Wax Cylinder 2  (wiki cat: Collectibles)",
+    "Wax Cylinder 3  (wiki cat: Collectibles)",
+    "Wax Cylinder 4  (wiki cat: Collectibles)",
+    "Wax Cylinder 5  (wiki cat: Collectibles)",
+    "Wax Cylinder 6  (wiki cat: Collectibles)",
+    "Wax Cylinder 7  (wiki cat: Collectibles)",
+    "Wax Cylinder 8  (wiki cat: Collectibles)",
+    "Wax Cylinder 9  (wiki cat: Collectibles)",
+    "Wax Cylinder Player  (wiki cat: Collectibles)",
+    "Wet Paper  (wiki cat: Collectibles)",
+    "Whale Oil Can  (wiki cat: Tools)",
+    "Wilderness Kitchen  (wiki cat: Fire_Starting)",
     "Wilderness Kitchen  (wiki cat: Tools)",
     "Winter Forecast  (wiki cat: Collectibles)",
     "Wires  (wiki cat: Tools)",
+    "Wolf Carcass  (wiki cat: Story_items)",
     "Wolf Quarter  (wiki cat: Food_And_Drink)",
     "Wolfskin Coat  (wiki cat: Clothing)",
+    "Wolfskin Coat  (wiki cat: Story_items)",
     "Wolfskin Hat  (wiki cat: Clothing)",
     "Wolfskin Hat Blueprint Card  (wiki cat: Collectibles)",
     "Wolfskin Pants  (wiki cat: Clothing)",
     "Wolfskin Pants Blueprint Card  (wiki cat: Collectibles)",
+    "Wood Matches  (wiki cat: Fire_Starting)",
+    "Wood Stove  (wiki cat: Fire_Starting)",
     "Woodworking Tools  (wiki cat: Tools)",
     "Woodwright's Bow  (wiki cat: Tools)",
     "Wool Longjohns  (wiki cat: Clothing)",
+    "Wool Longjohns  (wiki cat: Story_items)",
     "Wool Toque  (wiki cat: Clothing)",
+    "Work Bench  (wiki cat: Story_items)",
     "Work Order  (wiki cat: Collectibles)",
     "Workbench Vice  (wiki cat: Materials)",
+    "Worn Logbook  (wiki cat: Collectibles)",
     "Wyatt's Lost Papers 1  (wiki cat: Collectibles)",
     "Wyatt's Lost Papers 2  (wiki cat: Collectibles)",
     "Wyatt's Lost Papers 3  (wiki cat: Collectibles)",

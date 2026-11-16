@@ -1,21 +1,24 @@
 #!/usr/bin/env python3
 """
-tld_wiki_updater.py — Fetch current item lists from the TLD Fandom wiki
-and report any GEAR_ prefab names in your save that aren't in the taxonomy.
+tld_wiki_updater.py: fetch current item lists from the TLD Fandom wiki and report
+wiki items that the taxonomy does not cover.
 
 Run this from your local machine (requires internet access to fandom.com).
-It will NOT modify tld_reader.py — it outputs a report of missing items
-so you can decide how to classify them.
+It does not modify tld_taxonomy.py. It prints a report so you can decide how to
+classify what is missing.
+
+tld_taxonomy.py is looked for next to this script and then in ../SaveExtractor.
+Use --taxonomy to point at it directly. The run stops if it cannot be loaded.
 
 Usage:
     python tld_wiki_updater.py                      # report only
-    python tld_wiki_updater.py --save sandbox1      # cross-ref against a save
-    python tld_wiki_updater.py --patch              # write missing.json patch
+    python tld_wiki_updater.py --save sandbox1      # also check a save file
+    python tld_wiki_updater.py --patch              # write missing_prefabs.json
 """
 
 import argparse
+import importlib.util
 import json
-import re
 import sys
 import time
 from pathlib import Path
@@ -28,14 +31,17 @@ except ImportError:
 WIKI_API = "https://thelongdark.fandom.com/api.php"
 HEADERS  = {"User-Agent": "TLD-taxonomy-updater/1.0 (local tool)"}
 
-# Wiki categories to enumerate
+# Wiki categories to enumerate. Checked against the wiki's category list on
+# 2026-11-16: "Other" and "Research_Books" do not exist there and returned nothing.
 WIKI_CATEGORIES = [
     "Clothing", "Tools", "Materials", "Food_And_Drink",
-    "First_Aid", "Other", "Research_Books", "Collectibles",
+    "First_Aid", "Fire_Starting", "Story_items", "Collectibles",
 ]
 
-# Known mapping from wiki display name → GEAR_ prefab name
-# Extend this as new items are discovered
+# Known mapping from wiki display name to GEAR_ prefab name.
+# Extend this as new items are discovered. A prefab's internal name often differs
+# from its display name (GEAR_BasicBoots is "Trail Boots"), so check new entries
+# against Properties/Resources.resx or a real save before adding them.
 WIKI_NAME_TO_PREFAB: dict[str, str] = {
     # Food - Meat
     "Bear Meat (Cooked)":          "GEAR_CookedMeatBear",
@@ -57,8 +63,8 @@ WIKI_NAME_TO_PREFAB: dict[str, str] = {
     "Lake Whitefish (Raw)":        "GEAR_RawLakeWhiteFish",
     "Rainbow Trout (Cooked)":      "GEAR_CookedRainbowTrout",
     "Rainbow Trout (Raw)":         "GEAR_RawRainbowTrout",
-    "Smallmouth Bass (Cooked)":    "GEAR_CookedSmallmouthBass",
-    "Smallmouth Bass (Raw)":       "GEAR_RawSmallmouthBass",
+    "Smallmouth Bass (Cooked)":    "GEAR_CookedSmallMouthBass",
+    "Smallmouth Bass (Raw)":       "GEAR_RawSmallMouthBass",
     "Burbot (Cooked)":             "GEAR_CookedBurbot",
     "Burbot (Raw)":                "GEAR_RawBurbot",
     "Goldeye (Cooked)":            "GEAR_CookedGoldeye",
@@ -91,11 +97,10 @@ WIKI_NAME_TO_PREFAB: dict[str, str] = {
     "Summit Soda":                 "GEAR_Soda",
     # First Aid
     "Antibiotics":                 "GEAR_BottleAntibiotics",
-    "Antiseptic":                  "GEAR_Antiseptic",
+    "Antiseptic":                  "GEAR_BottleHydrogenPeroxide",
     "Bandage":                     "GEAR_HeavyBandage",
     "Emergency stim":              "GEAR_EmergencyStim",
     "Painkillers":                 "GEAR_BottlePainKillers",
-    "Vitamins":                    "GEAR_Vitamins",
     # Materials
     "Birch bark":                  "GEAR_BarkTinder",
     "Birch sapling":               "GEAR_BirchSapling",
@@ -107,13 +112,13 @@ WIKI_NAME_TO_PREFAB: dict[str, str] = {
     "Cured Gut":                   "GEAR_GutDried",
     "Cured Leather":               "GEAR_LeatherDried",
     "Cured Maple Sapling":         "GEAR_MapleSaplingDried",
-    "Cured Moose Hide":            "GEAR_MooseHide",
+    "Cured Moose Hide":            "GEAR_MooseHideDried",
     "Cured Rabbit Pelt":           "GEAR_RabbitPeltDried",
     "Cured Wolf Pelt":             "GEAR_WolfPeltDried",
     "Fresh Gut":                   "GEAR_Gut",
-    "Fresh Leather":               "GEAR_LeatherHide",
+    "Fresh Leather":               "GEAR_Leather",
     "Fresh Moose Hide":            "GEAR_MooseHide",
-    "Fresh Rabbit Pelt":           "GEAR_RabbitPeltDried",
+    "Fresh Rabbit Pelt":           "GEAR_RabbitPelt",
     "Fresh Wolf Pelt":             "GEAR_WolfPelt",
     "Reclaimed Wood":              "GEAR_ReclaimedWoodB",
     "Scrap Metal":                 "GEAR_ScrapMetal",
@@ -122,15 +127,15 @@ WIKI_NAME_TO_PREFAB: dict[str, str] = {
     # Tools
     "Can Opener":                  "GEAR_CanOpener",
     "Firestriker":                 "GEAR_Firestriker",
-    "Fishing tackle":              "GEAR_FishingLureA",
+    "Fishing tackle":              "GEAR_HookAndLine",
     "Hacksaw":                     "GEAR_Hacksaw",
     "Hatchet":                     "GEAR_Hatchet",
     "Heavy Hammer":                "GEAR_Hammer",
     "Hook":                        "GEAR_Hook",
     "Hunting Knife":               "GEAR_Knife",
     "Hunting Rifle":               "GEAR_Rifle",
-    "Improvised Hatchet":          "GEAR_Hatchet",
-    "Improvised Knife":            "GEAR_KnifeScrapMetal",
+    "Improvised Hatchet":          "GEAR_HatchetImprovised",
+    "Improvised Knife":            "GEAR_KnifeImprovised",
     "Kerosene":                    "GEAR_LampFuel",
     "Lantern":                     "GEAR_KeroseneLampB",
     "Lantern Fuel":                "GEAR_LampFuel",
@@ -160,7 +165,7 @@ WIKI_NAME_TO_PREFAB: dict[str, str] = {
     "Basic Winter Coat":           "GEAR_BasicWinterCoat",
     "Basic Wool Hat":              "GEAR_BasicWoolHat",
     "Basic Wool Scarf":            "GEAR_BasicWoolScarf",
-    "Bear Skin Bedroll":           "GEAR_BearSkinBedroll",
+    "Bear Skin Bedroll":           "GEAR_BearSkinBedRoll",
     "Bear Skin Coat":              "GEAR_BearSkinCoat",
     "Bedroll":                     "GEAR_BedRoll",
     "Cargo Pants":                 "GEAR_CargoPants",
@@ -170,17 +175,17 @@ WIKI_NAME_TO_PREFAB: dict[str, str] = {
     "Cotton Long Underwear":       "GEAR_LongUnderwear",
     "Cotton Scarf":                "GEAR_CottonScarf",
     "Cotton Socks":                "GEAR_CottonSocks",
-    "Cotton Toque":                "GEAR_Toque",
+    "Cotton Toque":                "GEAR_BasicWoolHat",
     "Cowichan Sweater":            "GEAR_CowichanSweater",
     "Deerskin Boots":              "GEAR_DeerSkinBoots",
     "Deerskin Pants":              "GEAR_DeerSkinPants",
     "Down Ski Jacket":             "GEAR_DownSkiJacket",
     "Down Vest":                   "GEAR_DownVest",
-    "Dress Shirt":                 "GEAR_DressShirt",
-    "Driving Gloves":              "GEAR_DrivingGloves",
-    "Expedition Parka":            "GEAR_ExpeditionParka",
+    "Dress Shirt":                 "GEAR_CottonShirt",
+    "Driving Gloves":              "GEAR_BasicGloves",
+    "Expedition Parka":            "GEAR_PremiumWinterCoat",
     "Fisherman's Sweater":         "GEAR_FishermanSweater",
-    "Fleece Cowl":                 "GEAR_FleeceCowl",
+    "Fleece Cowl":                 "GEAR_WoolWrapCap",
     "Fleece Mittens":              "GEAR_FleeceMittens",
     "Fleece Sweater":              "GEAR_FleeceSweater",
     "Gauntlets":                   "GEAR_Gauntlets",
@@ -190,16 +195,16 @@ WIKI_NAME_TO_PREFAB: dict[str, str] = {
     "Insulated Vest":              "GEAR_InsulatedVest",
     "Jeans":                       "GEAR_Jeans",
     "Leather Shoes":               "GEAR_LeatherShoes",
-    "Light Shell":                 "GEAR_LightShell",
+    "Light Shell":                 "GEAR_SkiJacket",
     "Long Wool Scarf":             "GEAR_WoolWrap",
     "Mackinaw Jacket":             "GEAR_MackinawJacket",
-    "Mariner's Pea Coat":          "GEAR_MarinerPeaCoat",
-    "Military Coat":               "GEAR_MilitaryCoat",
+    "Mariner's Pea Coat":          "GEAR_QualityWinterCoat",
+    "Military Coat":               "GEAR_MilitaryParka",
     "Mittens":                     "GEAR_Mittens",
     "Moose-hide Cloak":            "GEAR_MooseHideCloak",
-    "Moose-hide Satchel":          "GEAR_MooseHideSatchel",
-    "Mukluks":                     "GEAR_Mukluks",
-    "Old Fashioned Parka":         "GEAR_OldFashionedParka",
+    "Moose-hide Satchel":          "GEAR_MooseHideBag",
+    "Mukluks":                     "GEAR_MuklukBoots",
+    "Old Fashioned Parka":         "GEAR_HeavyParka",
     "Plaid Shirt":                 "GEAR_PlaidShirt",
     "Premium Winter Coat":         "GEAR_PremiumWinterCoat",
     "Quality Winter Coat":         "GEAR_QualityWinterCoat",
@@ -208,19 +213,18 @@ WIKI_NAME_TO_PREFAB: dict[str, str] = {
     "Simple Parka":                "GEAR_LightParka",
     "Ski Boots":                   "GEAR_SkiBoots",
     "Ski Gloves":                  "GEAR_SkiGloves",
-    "Ski Jacket":                  "GEAR_SkiJacket",
-    "Snow Pants":                  "GEAR_SnowPants",
-    "Sport Vest":                  "GEAR_SportVest",
+    "Ski Jacket":                  "GEAR_DownSkiJacket",
+    "Snow Pants":                  "GEAR_InsulatedPants",
+    "Sport Vest":                  "GEAR_InsulatedVest",
     "Sports Socks":                "GEAR_CottonSocks",
-    "Sweatshirt":                  "GEAR_Sweatshirt",
+    "Sweatshirt":                  "GEAR_FleeceSweater",
     "T-Shirt":                     "GEAR_TeeShirt",
     "Tin of Coffee":               "GEAR_CoffeeTin",
-    "Trail Boots":                 "GEAR_WorkBoots",
-    "Turtleneck Sweater":          "GEAR_TurtleneckSweater",
-    "Urban Parka":                 "GEAR_UrbanParka",
-    "Windbreaker":                 "GEAR_Windbreaker",
+    "Trail Boots":                 "GEAR_BasicBoots",
+    "Urban Parka":                 "GEAR_DownParka",
+    "Windbreaker":                 "GEAR_BasicWinterCoat",
     "Wolf Pelt":                   "GEAR_WolfPelt",
-    "Wool Ear Wrap":               "GEAR_WoolEarWrap",
+    "Wool Ear Wrap":               "GEAR_EarMuffs",
     "Wool Long Scarf":             "GEAR_WoolWrap",
     "Wool Mittens":                "GEAR_Mittens",
     "Wool Scarf":                  "GEAR_BasicWoolScarf",
@@ -265,68 +269,50 @@ def fetch_category_members(category: str, session: "requests.Session") -> list[s
     return pages
 
 
-def load_taxonomy_prefabs(script_dir: Path) -> set[str]:
-    """Load known GEAR_ prefabs from tld_taxonomy.py if present."""
-    taxonomy_path = script_dir / "tld_taxonomy.py"
-    if not taxonomy_path.exists():
-        return set()
-    ns: dict = {}
-    exec(taxonomy_path.read_text(), ns)
-    return set(ns.get("TAXONOMY_LOOKUP", {}).keys())
+def find_taxonomy(explicit: "Path | None") -> Path:
+    """Path of tld_taxonomy.py: the --taxonomy argument, this folder, or ../SaveExtractor."""
+    script_dir = Path(__file__).resolve().parent
+    if explicit is not None:
+        candidates = [explicit]
+    else:
+        candidates = [script_dir / "tld_taxonomy.py",
+                      script_dir.parent / "SaveExtractor" / "tld_taxonomy.py"]
+    for candidate in candidates:
+        if candidate.is_file():
+            return candidate
+    sys.exit("tld_taxonomy.py not found. Looked in:\n  "
+             + "\n  ".join(str(candidate) for candidate in candidates)
+             + "\nPass --taxonomy PATH to point at it.")
 
 
-def load_save_prefabs(save_path: Path) -> set[str]:
-    """Extract all GEAR_ prefab names from a save file."""
-    import base64
-
-    def _lzf(data: bytes) -> bytes:
-        out = bytearray()
-        i, n = 0, len(data)
-        while i < n:
-            ctrl = data[i]; i += 1
-            if ctrl < 32:
-                ln = ctrl + 1; out += data[i:i+ln]; i += ln
-            else:
-                ln = (ctrl >> 5) + 2
-                if ln == 9: ln += data[i]; i += 1
-                ref = ((ctrl & 0x1f) << 8) + data[i] + 1; i += 1
-                pos = len(out) - ref
-                for _ in range(ln): out.append(out[pos]); pos += 1
-        return bytes(out)
-
-    def _d(b: bytes) -> bytes:
-        for s in (0, 1, 2):
-            try: return _lzf(b[s:])
-            except: pass
-        raise ValueError("LZF failed")
-
-    import json
-    raw = _d(save_path.read_bytes())
-    outer = json.loads(raw)
-    prefabs: set[str] = set()
-    for val in outer.get("m_Dict", {}).values():
-        if isinstance(val, list):
-            scene = json.loads(_d(bytes(val)))
-        elif isinstance(val, str):
-            try: scene = json.loads(_d(base64.b64decode(val + "==")))
-            except: continue
-        else:
-            continue
-        if not isinstance(scene, dict):
-            continue
-        for key in ("m_GearManagerSerialized", "m_Inventory_Serialized"):
-            block = scene.get(key, {})
-            if isinstance(block, str):
-                import json as _j
-                block = _j.loads(block)
-            items_key = "m_SerializedItems"
-            for item in (block or {}).get(items_key, []):
-                if isinstance(item, str):
-                    item = json.loads(item)
-                p = item.get("m_PrefabName", "")
-                if p.startswith("GEAR_"):
-                    prefabs.add(p)
+def load_taxonomy_prefabs(taxonomy_path: Path) -> set[str]:
+    """Import tld_taxonomy.py from its path and return the prefab names it knows."""
+    spec = importlib.util.spec_from_file_location("tld_taxonomy", taxonomy_path)
+    if spec is None or spec.loader is None:
+        sys.exit(f"Cannot load {taxonomy_path}")
+    module = importlib.util.module_from_spec(spec)
+    # Registered under its real name so tld_save_reader imports this same module.
+    sys.modules["tld_taxonomy"] = module
+    spec.loader.exec_module(module)
+    prefabs = set(getattr(module, "TAXONOMY_LOOKUP", {}))
+    if not prefabs:
+        sys.exit(f"{taxonomy_path} has no TAXONOMY_LOOKUP entries. "
+                 f"Stopping, because every wiki item would be reported as new.")
     return prefabs
+
+
+def load_save_prefabs(save_path: Path, tools_dir: Path) -> set[str]:
+    """All GEAR_ prefab names in a save, read with tld_save_reader.py from tools_dir."""
+    sys.path.insert(0, str(tools_dir))
+    try:
+        from tld_save_reader import read_save
+    except ImportError as error:
+        sys.exit(f"--save needs tld_save_reader.py next to tld_taxonomy.py in {tools_dir}: {error}")
+    try:
+        contents = read_save(save_path, include_unsearched=True)
+    except (OSError, ValueError) as error:
+        sys.exit(f"Could not read save file {save_path}: {error}")
+    return {record.prefab for record in contents.records}
 
 
 def main() -> None:
@@ -336,29 +322,46 @@ def main() -> None:
     parser.add_argument("--save", type=Path, help="Path to a save file to cross-reference")
     parser.add_argument("--patch", action="store_true",
                         help="Write missing items to missing_prefabs.json")
+    parser.add_argument("--taxonomy", type=Path,
+                        help="Path to tld_taxonomy.py (default: next to this script, then ../SaveExtractor)")
     args = parser.parse_args()
 
-    script_dir = Path(__file__).parent
-    known_prefabs = load_taxonomy_prefabs(script_dir)
-    print(f"Loaded {len(known_prefabs)} prefabs from taxonomy.")
+    # Wiki titles can hold characters the Windows console code page lacks. Without this,
+    # redirecting the output to a file stops the run with a UnicodeEncodeError.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(errors="replace")
+
+    script_dir = Path(__file__).resolve().parent
+    taxonomy_path = find_taxonomy(args.taxonomy)
+    known_prefabs = load_taxonomy_prefabs(taxonomy_path)
+    print(f"Loaded {len(known_prefabs)} prefabs from {taxonomy_path}")
+
+    broken_mappings = {title: prefab for title, prefab in WIKI_NAME_TO_PREFAB.items()
+                       if prefab not in known_prefabs}
+    if broken_mappings:
+        print(f"\nWARNING: {len(broken_mappings)} WIKI_NAME_TO_PREFAB entries point at a prefab "
+              f"the taxonomy does not have. Each is a wrong name or a new item:")
+        for title, prefab in sorted(broken_mappings.items()):
+            print(f"   {title!r} -> {prefab}")
 
     save_prefabs: set[str] = set()
     if args.save:
         if not args.save.exists():
             sys.exit(f"Save file not found: {args.save}")
-        save_prefabs = load_save_prefabs(args.save)
+        save_prefabs = load_save_prefabs(args.save, taxonomy_path.parent)
         print(f"Loaded {len(save_prefabs)} prefabs from save file.")
         unknown_in_save = save_prefabs - known_prefabs
         if unknown_in_save:
-            print(f"\n⚠  {len(unknown_in_save)} prefabs in save NOT in taxonomy:")
+            print(f"\nWARNING: {len(unknown_in_save)} prefabs in save NOT in taxonomy:")
             for p in sorted(unknown_in_save):
                 print(f"   {p}")
         else:
-            print("✓  All save prefabs are in the taxonomy.")
+            print("OK: all save prefabs are in the taxonomy.")
 
     print(f"\nFetching wiki categories from {WIKI_API} ...")
     session = requests.Session()
     all_wiki_items: dict[str, list[str]] = {}
+    failed_categories: list[str] = []
     for cat in WIKI_CATEGORIES:
         try:
             items = fetch_category_members(cat, session)
@@ -367,10 +370,13 @@ def main() -> None:
                 if t not in SKIP_TITLES and not t.startswith("File:")
             ]
             print(f"  {cat}: {len(all_wiki_items[cat])} items")
-        except Exception as e:
-            print(f"  {cat}: ERROR — {e}")
+            if not items:
+                print(f"  WARNING: {cat} returned no pages. The category name may be wrong.")
+        except (requests.RequestException, ValueError) as e:
+            print(f"  {cat}: ERROR: {e}")
+            failed_categories.append(cat)
 
-    # Resolve wiki names → GEAR_ prefabs
+    # Resolve wiki names to GEAR_ prefabs
     new_prefabs: dict[str, str] = {}  # prefab -> category
     unmappable: list[str] = []
     for cat, items in all_wiki_items.items():
@@ -382,27 +388,36 @@ def main() -> None:
                 unmappable.append(f"{title}  (wiki cat: {cat})")
 
     print(f"\n=== RESULTS ===")
+    if failed_categories:
+        print(f"\nERROR: {len(failed_categories)} of {len(WIKI_CATEGORIES)} wiki categories could not be "
+              f"fetched ({', '.join(failed_categories)}), so the results below are incomplete.")
     if new_prefabs:
-        print(f"\n🆕 {len(new_prefabs)} new prefabs found on wiki, not in taxonomy:")
+        print(f"\nNEW: {len(new_prefabs)} prefabs found on wiki, not in taxonomy:")
         for p, cat in sorted(new_prefabs.items()):
             print(f"   {p:<40} <- {cat}")
     else:
-        print("\n✓  No new prefabs detected.")
+        print("\nOK: no new prefabs detected.")
 
     if unmappable:
-        print(f"\n❓ {len(unmappable)} wiki items with no known GEAR_ mapping:")
+        print(f"\nUNMAPPED: {len(unmappable)} wiki items with no known GEAR_ mapping:")
         for item in sorted(set(unmappable)):
             print(f"   {item}")
 
-    if args.patch and new_prefabs:
+    if args.patch and failed_categories:
+        print("\nmissing_prefabs.json was left as it is because the wiki fetch was incomplete.")
+    elif args.patch:
         patch_path = script_dir / "missing_prefabs.json"
-        with patch_path.open("w") as f:
+        with patch_path.open("w", encoding="utf-8") as f:
             json.dump({
                 "new_prefabs": {p: {"wiki_category": c} for p, c in new_prefabs.items()},
                 "unmapped_wiki_items": sorted(set(unmappable)),
             }, f, indent=2)
         print(f"\nPatch written to {patch_path}")
-        print("Add these prefabs to tld_taxonomy.py TAXONOMY dict to classify them.")
+        if new_prefabs:
+            print("Add these prefabs to TAXONOMY_LOOKUP in tld_taxonomy.py to classify them.")
+
+    if failed_categories:
+        sys.exit(1)
 
 
 if __name__ == "__main__":
